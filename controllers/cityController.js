@@ -1,6 +1,6 @@
 const express = require("express");
 const cities = express.Router();
-const { getAllCities, getOneCity } = require("../queries/city.js");
+const { getAllCities, getOneCity, newCity, deleteCity, updateCity } = require("../queries/city.js");
 
 
 // INDEX -- all of the cities - /cities
@@ -26,9 +26,38 @@ const { getAllCities, getOneCity } = require("../queries/city.js");
     }
 });
 
+// POST -- create a new city - /cities
 
+  cities.post("/", async (req, res) => {
+     const body = req.body;
+     const city = await newCity(body);
+     res.status(200).json(city);
+  });
 
+//DELETE -- delete a city - /cities/:id
 
+cities.delete('/:id', async(req, res) => {
+     const id = req.params.id;
+     const deletedCity = await deleteCity(id)
+       if(deletedCity.id) {
+         res.status(200).json(deletedCity)
+       } else {
+         res.status(404).json( {error: "Page Not Found"} )
+       }
+});
+
+// PUT -- updata a city - /cities/:id
+
+cities.put('/:id', async (req, res) => {
+     const id = req.params.id;
+     const body = req.body;
+     const updatedCity = await updateCity(id, body)
+       if(updatedCity.id) {
+        res.status(200).json(updatedCity)
+       } else {
+        res.status(404).json( { error: "Page Not Found"})
+       }
+})
 
 
 module.exports = cities;

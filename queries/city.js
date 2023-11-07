@@ -19,5 +19,35 @@ const getOneCity = async (id) => {
    }
 };
 
+const newCity = async (city)  => {
+   try{
+      const createCity = await db.one("INSERT INTO cities (name, image, population, area, annual_visitors, currency, is_capital) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING * ",
+      [city.name, city.image, city.population, city.area, city.annual_visitors, city.currency, city.is_capital]
+      )
+      return createCity;
+   }  catch(error) {
+      return error;
+   }
+};
 
-module.exports = { getAllCities, getOneCity };
+const deleteCity = async (id) => {
+    try{
+     const deletedCity = await db.one("DELETE FROM cities WHERE id=$1 RETURNING * ", id)
+       return deletedCity;
+      } catch(error) {
+      return error;
+    }
+};
+
+const updateCity = async (id, city) => {
+  try{
+    const updatedCity = await db.one("UPDATE cities SET name=$1, image=$2, population=$3, area=$4, annual_visitors=$5, currency=$6, is_capital=$7 WHERE id=$8 RETURNING * ",
+    [city.name, city.image, city.population, city.area, city.annual_visitors, city.currency, city.is_capital, id]
+    );
+    return updatedCity;
+    } catch(error) {
+     return error;
+ }
+};
+
+module.exports = { getAllCities, getOneCity, newCity, deleteCity, updateCity };
