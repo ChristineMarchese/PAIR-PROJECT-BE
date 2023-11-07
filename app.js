@@ -13,7 +13,7 @@ const cors = require('cors');
 
 // middleware
 app.use(cors());
-app.use(express.json());
+// app.use(express.json());
 app.use("/cities", cityController);
 
 app.get("/", (req, res) => {

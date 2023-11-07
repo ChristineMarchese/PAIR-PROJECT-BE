@@ -1,6 +1,7 @@
 const express = require("express");
 const cities = express.Router();
 const { getAllCities, getOneCity, newCity, deleteCity, updateCity } = require("../queries/city.js");
+const { checkName, checkCurrency, checkBoolean } = require("../validations/checkCities")
 
 
 // INDEX -- all of the cities - /cities
@@ -28,7 +29,7 @@ const { getAllCities, getOneCity, newCity, deleteCity, updateCity } = require(".
 
 // POST -- create a new city - /cities
 
-  cities.post("/", async (req, res) => {
+  cities.post("/", express.json(), checkName, checkCurrency, checkBoolean, async (req, res) => {
      const body = req.body;
      const city = await newCity(body);
      res.status(200).json(city);
@@ -48,7 +49,7 @@ cities.delete('/:id', async(req, res) => {
 
 // PUT -- updata a city - /cities/:id
 
-cities.put('/:id', async (req, res) => {
+cities.put('/:id', express.json(), checkName, checkCurrency, checkBoolean, async (req, res) => {
      const id = req.params.id;
      const body = req.body;
      const updatedCity = await updateCity(id, body)

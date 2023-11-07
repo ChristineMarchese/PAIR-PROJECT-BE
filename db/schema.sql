@@ -10,8 +10,8 @@ CREATE TABLE cities (
    name TEXT NOT NULL,
    image TEXT,
    population INTEGER,
-   area decimal,
-   annual_visitors decimal,
+   area DECIMAL,
+   annual_visitors DECIMAL,
    currency TEXT NOT NULL,
    is_capital BOOLEAN
-)
+);
