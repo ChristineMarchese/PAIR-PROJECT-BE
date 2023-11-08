@@ -18,7 +18,7 @@ const { checkName, checkCurrency, checkBoolean } = require("../validations/check
 // SHOW -- get one city -/cities/:id
 
   cities.get("/:id", async (req, res) => {
-    const id = req.params.id;
+    const id = Number(req.params.id);
     const oneCity = await getOneCity(id);
     if(oneCity) {
     res.status(200).json(oneCity)
@@ -38,7 +38,7 @@ const { checkName, checkCurrency, checkBoolean } = require("../validations/check
 //DELETE -- delete a city - /cities/:id
 
 cities.delete('/:id', async(req, res) => {
-     const id = req.params.id;
+     const id = Number(req.params.id);
      const deletedCity = await deleteCity(id)
        if(deletedCity.id) {
          res.status(200).json(deletedCity)
@@ -50,7 +50,7 @@ cities.delete('/:id', async(req, res) => {
 // PUT -- updata a city - /cities/:id
 
 cities.put('/:id', express.json(), checkName, checkCurrency, checkBoolean, async (req, res) => {
-     const id = req.params.id;
+     const id = Number(req.params.id);
      const body = req.body;
      const updatedCity = await updateCity(id, body)
        if(updatedCity.id) {
